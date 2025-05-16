@@ -5,22 +5,35 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // You can also clear any auth tokens here if you have them
-    navigate("/login"); 
+    
+    navigate("/login");
   };
 
   return (
-    <div className="flex justify-between items-center h-14 w-full shadow-2xl">
-      <div className="p-3 flex gap-1">
-        <img src="/logo.jpg" className="w-12 h-9" alt="logo" />
-        <h3 className="text-3xl">
-          <span className="text-red-700">Task</span>ECS
-        </h3>
+    <nav className="flex justify-between items-center h-16 w-full px-6 bg-white shadow-lg sticky top-0 z-50">
+     
+      <div className="flex items-center gap-3">
+        <img
+          src="/logo.jpg"
+          alt="logo"
+          className="w-12 h-12 rounded-md object-cover shadow"
+        />
+        <h1 className="text-3xl font-extrabold tracking-wide select-none">
+          <span className="text-red-600">Digi</span>
+          <span className="text-gray-800">ECS</span>
+        </h1>
       </div>
-      <div className="p-3 cursor-pointer" onClick={handleLogout}>
-        <IoIosLogOut className="h-10 w-12 p-2 shadow-2xl" />
-      </div>
-    </div>
+
+      
+      <button
+        onClick={handleLogout}
+        title="Logout"
+        className="flex items-center gap-1 text-red-600 hover:text-red-800 transition-colors rounded-md p-2 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-600"
+      >
+        <IoIosLogOut className="w-6 h-6" />
+        <span className="hidden sm:inline font-semibold">Logout</span>
+      </button>
+    </nav>
   );
 };
 
