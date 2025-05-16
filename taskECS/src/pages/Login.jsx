@@ -26,7 +26,7 @@ const handleSubmit = async (e) => {
   }
   try {
     const response = await axiosInstance.post("/api/auth/login", user);
-    console.log(response.data);
+                     
 
     const role = response.data.user.role;  
     const token = response.data.token;

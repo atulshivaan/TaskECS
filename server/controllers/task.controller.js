@@ -6,38 +6,40 @@ import User from "../models/user.model.js";
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
 
+
+
 export const createTask = async (req, res) => {
   try {
     const {
       taskName,
-      assignedTo, 
+      username, 
       dueDate,
       targetDate,
       endDate,
       taskDescription,
     } = req.body;
 
-    // Validate required fields
-    if (!taskName || !assignedTo || !dueDate) {
+
+    if (!taskName || !username || !dueDate) {
       return res.status(400).json({
         success: false,
-        message: "taskName, assignedTo and dueDate are required",
+        message: "taskName, username, and dueDate are required",
       });
     }
 
-    // Verify that assignedTo user exists
-    const user = await User.findById(assignedTo);
+    // Find user by username
+    const user = await User.findOne({ username });
     if (!user) {
-      return res.status(400).json({
+      return res.status(404).json({
         success: false,
-        message: "Assigned user not found",
+        message: "User with the given username not found",
       });
     }
 
-    // Create task
+    // Create the task
     const newTask = new Task({
       taskName,
-      assignedTo,
+      assignedTo: user._id, 
       dueDate,
       targetDate,
       endDate,
@@ -48,9 +50,14 @@ export const createTask = async (req, res) => {
 
     res.status(201).json({ success: true, task: savedTask });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Failed to create task", error: error.message });
+    res.status(500).json({
+      success: false,
+      message: "Failed to create task",
+      error: error.message,
+    });
   }
 };
+
 
 
 export const getallTasks = async (req, res) => {
